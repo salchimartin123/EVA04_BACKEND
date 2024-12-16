@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from reservasAPP.models import Reserva
 from reservasAPP.serializers import ReservaSerializer
@@ -7,17 +9,59 @@ from rest_framework import status
 from reservasAPP.serializers import ValidacionReserva
 from rest_framework.views import APIView
 from django.db import IntegrityError
+from reservasAPP.forms import *
 
+#clase para mostrar index
 def index(request):
     return render(request, 'index.html')
 
+##reservas en datatable
 def listadereservas(request):
     reservas = Reserva.objects.all()
     data = {'reservas': reservas}
-    return render(request, 'reservas.html', data)
+    return render(request, 'reservastemplates/reservas.html', data)
+
+def reservaRegistro(request):
+    form = ReservaRegistroForm()
+    
+    if request.method == 'POST':
+        form = ReservaRegistroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listadereservas'))
+            
+    data = {'form':form}
+    return render(request, 'reservastemplates/reservasregistro.html',data)
+
+def reservaEliminar(request,id):
+    empleado = Reserva.objects.get(id=id)
+    empleado.delete()
+    return HttpResponseRedirect(reverse('listadereservas'))
+
+def reservaEditar(request, id):
+    empleado = Reserva.objects.get(id=id)
+    form = ReservaRegistroForm(instance=empleado)
+    
+    if request.method == 'POST':
+        form = ReservaRegistroForm(request.POST, instance=empleado)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('listadereservas'))
+            
+    data = {'form':form} 
+    return render(request, 'reservastemplates/reservasregistro.html', data)
+
+
+
+
+
+
+
+
+#Clases para Reservas desde API
+###############################
 
 class ReservaList(APIView):
-
     def get(self, request):
         reservas = Reserva.objects.all()
         serializer = ReservaSerializer(reservas, many=True)

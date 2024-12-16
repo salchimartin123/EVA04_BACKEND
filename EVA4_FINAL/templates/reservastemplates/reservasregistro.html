@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block tittle %}
+Index
+{% endblock %}
+
+{% block contenido %}
+<body>
+    
+    <div class="container my-5">
+
+        <div class="alert alert-info display-1 text-center mb-5">
+            <img src="{% static 'img/django.png' %}" alt="logo de django" width="100px" height="100px">
+            Registro de reservas
+        </div>
+
+
+    <form method="post" class="col-6 offset-3 border border-3 border-info-secundary rounded p-4 bg-light">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="d-grid">
+            <input type="submit" class="btn btn-primary mb-3" value="Enviar Datos">
+            <a href="{% url 'listadereservas' %}" class="btn btn-primary" type="button">Cancelar</a>
+        </div>
+        
+
+    </form>
+
+    </div>
+{% endblock %}
