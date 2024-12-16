@@ -1,6 +1,11 @@
 from django.db import models
 
-# Create your models here.
+
+
+class reservaEstado(models.Model):
+    estado = models.CharField(max_length=50)
+    def __str__(self): return self.estado
+
 
 class Reserva(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -9,5 +14,5 @@ class Reserva(models.Model):
     fecha_reserva = models.DateField()
     hora_reserva = models.TimeField()
     cantidad_personas = models.IntegerField()
-    estado = models.CharField(max_length=50)
+    estado = models.ForeignKey(reservaEstado, on_delete=models.CASCADE)
     observacion = models.CharField(max_length=50)

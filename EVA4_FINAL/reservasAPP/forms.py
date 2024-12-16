@@ -1,5 +1,5 @@
 from django import forms
-from reservasAPP.models import Reserva
+from reservasAPP.models import Reserva,reservaEstado
 
 #clase para editar reserva
 class ReservaRegistroForm(forms.Form):
@@ -28,7 +28,7 @@ class ReservaRegistroForm(forms.ModelForm):
     fecha_reserva = forms.DateField()
     hora_reserva = forms.TimeField()
     cantidad_personas = forms.IntegerField()
-    estado = forms.CharField(max_length=50)
+    estado = forms.ModelChoiceField(queryset=reservaEstado.objects.all(), empty_label="Seleccione un estado")
     observacion = forms.CharField(max_length=50)
 
     nombre_reserva.widget.attrs['class'] = 'form-control'
