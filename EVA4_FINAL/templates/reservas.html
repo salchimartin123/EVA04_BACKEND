@@ -1,0 +1,80 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block tittle %}
+Reservas
+{% endblock %}
+
+{% block contenido %}
+<body>
+
+    <div class="container my-5">
+
+        <div class="alert alert-info display-1 text-center mb-5">
+            Lista de Reservas
+        </div>
+
+        <a href="#" class="btn btn-primary mb-5">Registrar Reserva</a>
+
+        <table class="table ">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre Titular</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Fecha Reserva</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Cantidad Personas</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Observacion</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if reservas %} <!-- Si existe algun empleado -->
+                {% for rev in reservas %}
+                <tr class="table-light">
+                    <th scope="row">{{rev.id}}</th>
+                    <td>{{rev.nombre_reserva}}</td>
+                    <td>{{rev.telefono}}</td>
+                    <td>{{rev.fecha_reserva}}</td>
+                    <td>{{rev.hora_reserva}}</td>
+                    <td>{{rev.cantidad_personas}}</td>
+                    <td>{{rev.estado}}</td>
+                    <td>{{rev.observacion}}</td>
+                    <td>
+                        <a href="#" class="btn btn-warning btn-sm">Editar</a>
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{rev.id}}">Eliminar</button>
+    
+                    </td>
+                </tr>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal{{rev.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmacion</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        ¿Está seguro de eliminar la Reserva {{rev.id}}a nombre de: {{rev.nombre}}?
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="#"  type="button" class="btn btn-danger">Confirmar</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center">No hay reservas</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+
+    </div>
+{% endblock %}
