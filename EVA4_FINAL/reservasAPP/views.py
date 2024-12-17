@@ -29,10 +29,11 @@ def reservaRegistro(request):
         form = ReservaRegistroForm(request.POST)
         if form.is_valid():
             cantidad_personas = form.cleaned_data['cantidad_personas']
-            if cantidad_personas > 15:
-                form.add_error('cantidad_personas', 'La cantidad de personas no puede ser mayor a 15.')
+            
+            # Validación más sencilla para cantidad_personas
+            if cantidad_personas < 1 or cantidad_personas > 15:
+                form.add_error('cantidad_personas', 'La cantidad de personas debe ser entre 1 y 15.')
             else:
-                
                 form.save()
                 return HttpResponseRedirect(reverse('listadereservas'))
             
@@ -53,14 +54,17 @@ def reservaEditar(request, id):
         
         if form.is_valid():
             cantidad_personas = form.cleaned_data['cantidad_personas']
-            if cantidad_personas > 15:
-                form.add_error('cantidad_personas', 'La cantidad de personas no puede ser mayor a 15.')
+            
+            # Validación más sencilla para cantidad_personas
+            if cantidad_personas < 1 or cantidad_personas > 15:
+                form.add_error('cantidad_personas', 'La cantidad de personas debe ser entre 1 y 15.')
             else:
                 form.save()
                 return HttpResponseRedirect(reverse('listadereservas'))
             
     data = {'form': form}
     return render(request, 'reservastemplates/reservasregistro.html', data)
+
 
 
 
