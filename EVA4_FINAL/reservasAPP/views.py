@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from django.db import IntegrityError
 from reservasAPP.forms import *
 
+
 #clase para mostrar index
 def index(request):
     return render(request, 'index.html')

@@ -8,7 +8,7 @@ class reservaEstado(models.Model):
 
 
 class Reserva(models.Model):
-    id = models.IntegerField(primary_key=True)
+    
     nombre_reserva = models.CharField(max_length=50)
     telefono = models.CharField(max_length=50)
     fecha_reserva = models.DateField()
@@ -16,3 +16,5 @@ class Reserva(models.Model):
     cantidad_personas = models.IntegerField()
     estado = models.ForeignKey(reservaEstado, on_delete=models.CASCADE)
     observacion = models.CharField(max_length=50)
+
+    def __str__(self): return 'Reserva'

@@ -4,9 +4,8 @@ from reservasAPP.views import *
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     
-
+    
 
     #paths para API
 
