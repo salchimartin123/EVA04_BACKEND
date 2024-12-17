@@ -22,17 +22,22 @@ def listadereservas(request):
     data = {'reservas': reservas}
     return render(request, 'reservastemplates/reservas.html', data)
 
-def reservaRegistro(request):
+def reservaRegistro(request): 
     form = ReservaRegistroForm()
     
     if request.method == 'POST':
         form = ReservaRegistroForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('listadereservas'))
+            cantidad_personas = form.cleaned_data['cantidad_personas']
+            if cantidad_personas > 15:
+                form.add_error('cantidad_personas', 'La cantidad de personas no puede ser mayor a 15.')
+            else:
+                
+                form.save()
+                return HttpResponseRedirect(reverse('listadereservas'))
             
-    data = {'form':form}
-    return render(request, 'reservastemplates/reservasregistro.html',data)
+    data = {'form': form}
+    return render(request, 'reservastemplates/reservasregistro.html', data)
 
 def reservaEliminar(request,id):
     empleado = Reserva.objects.get(id=id)
@@ -45,12 +50,18 @@ def reservaEditar(request, id):
     
     if request.method == 'POST':
         form = ReservaRegistroForm(request.POST, instance=empleado)
+        
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('listadereservas'))
+            cantidad_personas = form.cleaned_data['cantidad_personas']
+            if cantidad_personas > 15:
+                form.add_error('cantidad_personas', 'La cantidad de personas no puede ser mayor a 15.')
+            else:
+                form.save()
+                return HttpResponseRedirect(reverse('listadereservas'))
             
-    data = {'form':form} 
+    data = {'form': form}
     return render(request, 'reservastemplates/reservasregistro.html', data)
+
 
 
 
